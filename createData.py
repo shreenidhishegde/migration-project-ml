@@ -1,7 +1,7 @@
 import csv
 
 special_chars = ['@', '&', '#', '-', '!']
-required_cols = ['Url', 'Special Char', 'Log']
+required_cols = ['Url', 'Special Char', 'SpecialChars', 'SourcelistUrl']
 
 def dataRead(path):
     """
@@ -27,7 +27,8 @@ def dataWrite(path, column_keys, out_data, required_cols=None):
                 w.writerow(row)
             else:
                 new_row = {}
-                [new_row[col] = row[col] for col in required_cols]
+                for col in required_cols:
+                    new_row[col] = row[col] 
                 w.writerow(new_row)
 
     return None
@@ -72,9 +73,9 @@ def findSpecialChars(url, special_chars):
 
     return is_special_char
 
-def addNewRow(out_data, is_special_char):
+def addNewRow(out_data, is_special_char, key):
     for idx,row in enumerate(out_data):
-            row['Special Char'] = is_special_char[idx]
+            row[key] = is_special_char[idx]
 
     return out_data
 
@@ -92,10 +93,14 @@ def main(readPath, writePath):
     is_special_char = findSpecialChars(url, special_chars)
 
     # Add new column
-    out_data = addNewRow(out_data, is_special_char)
+    out_data = addNewRow(out_data, is_special_char, "SpecialChars")
+    out_data = addNewRow(out_data, url, "SourcelistUrl")
 
     # Get the headers
-    column_keys = out_data[0].keys()
+    if(required_cols != None):
+        column_keys = required_cols
+    else:
+        column_keys = out_data[0].keys()
 
     print("Writing CSV Files\n")
 
