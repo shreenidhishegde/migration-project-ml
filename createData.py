@@ -1,6 +1,7 @@
 import csv
 
 special_chars = ['@', '&', '#', '-', '!']
+required_cols = ['Url', 'Special Char', 'Log']
 
 def dataRead(path):
     """
@@ -11,14 +12,10 @@ def dataRead(path):
     with open(path, encoding="utf-8") as csvfile:
         input_file = csv.DictReader(csvfile)
         for  row in input_file:
-           
-            #print(row)
-
             out_data.append(row)
-            
     return out_data
 
-def dataWrite(path, column_keys, out_data):
+def dataWrite(path, column_keys, out_data, required_cols=None):
     """
         Writes CSV Files
     """
@@ -26,7 +23,12 @@ def dataWrite(path, column_keys, out_data):
         w = csv.DictWriter(f, delimiter=',', lineterminator='\n', fieldnames=column_keys)
         w.writeheader()
         for row in (out_data):
-            w.writerow(row)
+            if(required_cols == None):
+                w.writerow(row)
+            else:
+                new_row = {}
+                [new_row[col] = row[col] for col in required_cols]
+                w.writerow(new_row)
 
     return None
 
@@ -98,7 +100,7 @@ def main(readPath, writePath):
     print("Writing CSV Files\n")
 
     # Write new CSV
-    dataWrite(writePath, column_keys, out_data)
+    dataWrite(writePath, column_keys, out_data, required_cols)
 
     print("Success!")
 
