@@ -1,6 +1,6 @@
 import csv
 
-special_chars = ['@', '&', '#']
+special_chars = ['@', '&', '#', '-', '!']
 
 def dataRead(path):
     """
@@ -23,7 +23,7 @@ def dataWrite(path, column_keys, out_data):
         Writes CSV Files
     """
     with open(path, "w", encoding="utf-8") as f:  # Just use 'w' mode in 3.x
-        w = csv.DictWriter(f, column_keys)
+        w = csv.DictWriter(f, delimiter=',', lineterminator='\n', fieldnames=column_keys)
         w.writeheader()
         for row in (out_data):
             w.writerow(row)
