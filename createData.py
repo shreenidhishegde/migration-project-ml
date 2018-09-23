@@ -1,7 +1,7 @@
 import csv
 
 special_chars = ['@', '&', '#', '-', '!']
-required_cols = ['Url', 'Special Char', 'SpecialChars', 'SourcelistUrl']
+required_cols = [ 'SpecialChars', 'SourcelistUrl']
 
 def dataRead(path):
     """
@@ -76,6 +76,7 @@ def findSpecialChars(url, special_chars):
 def addNewRow(out_data, is_special_char, key):
     for idx,row in enumerate(out_data):
             row[key] = is_special_char[idx]
+            
 
     return out_data
 
@@ -88,13 +89,15 @@ def main(readPath, writePath):
 
     # Get the URLS
     url = readURL(out_data)
+    print(url)
 
     # Find Special Chars
     is_special_char = findSpecialChars(url, special_chars)
 
     # Add new column
-    out_data = addNewRow(out_data, is_special_char, "SpecialChars")
+    
     out_data = addNewRow(out_data, url, "SourcelistUrl")
+    out_data = addNewRow(out_data, is_special_char, "SpecialChars")
 
     # Get the headers
     if(required_cols != None):
