@@ -8,20 +8,24 @@ def dataRead(path):
     """
     # Import the data
     out_data = []
-    with open(path) as csvfile:
+    with open(path, encoding="utf-8") as csvfile:
         input_file = csv.DictReader(csvfile)
-        for row in input_file:
+        for  row in input_file:
+           
+            #print(row)
+
             out_data.append(row)
+            
     return out_data
 
 def dataWrite(path, column_keys, out_data):
     """
         Writes CSV Files
     """
-    with open(path, 'w') as f:  # Just use 'w' mode in 3.x
+    with open(path, "w", encoding="utf-8") as f:  # Just use 'w' mode in 3.x
         w = csv.DictWriter(f, column_keys)
         w.writeheader()
-        for row in out_data:
+        for row in (out_data):
             w.writerow(row)
 
     return None
@@ -36,7 +40,7 @@ def readURL(out_data):
         # Read every row
         for key in row:
             # If the key has source URL
-            if('Source URL' in key):
+            if('Url' in key):
                 curr_url = row[key]
                 url.append(curr_url.split('/')[-1])
     return url
@@ -57,11 +61,12 @@ def findSpecialChars(url, special_chars):
 
     # Check for special characters
     for u in url:
-        flag = 0
+        flag = "No"
         for special_char in special_chars:
             if(special_char in u):
-                flag = 1
+                flag = "Yes"
         is_special_char.append(flag)
+        #print(u,flag)
 
     return is_special_char
 
@@ -97,5 +102,5 @@ def main(readPath, writePath):
 
     print("Success!")
 
-main("test.csv", "test_11.csv")
+main("Siteinfo2010.csv", "test_11.csv")
 
