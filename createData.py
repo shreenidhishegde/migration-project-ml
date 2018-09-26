@@ -1,7 +1,7 @@
 import csv
 
-special_chars = ['@', '&', '#', '-', '!']
-required_cols = [ 'SpecialChars', 'SourcelistUrl']
+special_chars = ['@', '&', '#', '-', '!', '_']
+required_cols = [ 'SourceUrl','SpecialChars']
 
 def dataRead(path):
     """
@@ -43,7 +43,7 @@ def readURL(out_data):
         # Read every row
         for key in row:
             # If the key has source URL
-            if('Url' in key):
+            if('SourceUrl' in key):
                 curr_url = row[key]
                 url.append(curr_url.split('/')[-1])
     return url
@@ -96,7 +96,7 @@ def main(readPath, writePath):
 
     # Add new column
     
-    out_data = addNewRow(out_data, url, "SourcelistUrl")
+    out_data = addNewRow(out_data, url, "SourceUrl")
     out_data = addNewRow(out_data, is_special_char, "SpecialChars")
 
     # Get the headers
